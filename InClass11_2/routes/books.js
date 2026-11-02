@@ -48,7 +48,26 @@ router.get('/books/search/:term', async (req, res) => {
                 res.status(500).json({ error: 'FL1: Database error:' + err.message})
             }
         })
+// POST /api/books -- create a new book
+router.post('/books', async (req, res) => {
+    const { title, pages, author, year, num_sold } = req.body
 
+    // Validate required fields
+    if (!title || !pages || !author || !year) {
+        return res.status(400).json({ error: 'title, pages, author, and year are required' })
+    }
 
+    try {
+        const [result] = await pool.query(
+            'INSERT INTO books (title, pages, author, year, num_sold) VALUES (?, ?, ?, ?, ?)',
+            [title, parseInt(pages), author, parseInt(year), num_sold || 0]
+        )
+        // Fetch the newly created book using the auto-generated id
+        const [rows] = await pool.query('SELECT * FROM books WHERE id = ?', [result.insertId])
+        res.status(201).json(rows[0])
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
 
 module.exports = router
