@@ -69,5 +69,45 @@ router.post('/books', async (req, res) => {
         res.status(500).json({ error: err.message })
     }
 })
+// PUT /api/books/:id -- update an existing book
+router.put('/books/:id', async (req, res) => {
+    const { title, pages, author, year, num_sold } = req.body
+    const id = parseInt(req.params.id)
+
+    try {
+        const [result] = await pool.query(
+            'UPDATE books SET title=?, pages=?, author=?, year=?, num_sold=? WHERE id=?',
+            [title, parseInt(pages), author, parseInt(year), parseInt(num_sold), id]
+        )
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Book not found' })
+        }
+
+        // Return the updated book
+        const [rows] = await pool.query('SELECT * FROM books WHERE id = ?', [id])
+        res.json(rows[0])
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
+// DELETE /api/books/:id -- remove a book
+router.delete('/books/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+
+    try {
+        // Fetch the book first so we can return it in the response
+        const [rows] = await pool.query('SELECT * FROM books WHERE id = ?', [id])
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Book not found' })
+        }
+
+        await pool.query('DELETE FROM books WHERE id = ?', [id])
+        res.json(rows[0])
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+})
 
 module.exports = router

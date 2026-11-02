@@ -11,3 +11,43 @@ GET {{baseUrl}}/books/99
 
 ### 4. A route that does not exist -- expect 404 Route not found
 GET http://localhost:3001/anything
+
+### 5. POST -- create a new book -- expect 201 with the new book including its id
+POST {{baseUrl}}/books
+Content-Type: application/json
+
+{
+  "title": "My Famous Book",
+  "pages": 372,
+  "author": "Someone",
+  "year": 2000,
+  "num_sold": 73420614
+}
+
+### 6. PUT -- update the book you just created
+### Replace 15 with the id returned in step 5
+PUT {{baseUrl}}/books/76
+Content-Type: application/json
+
+{
+  "title": "My Famous Book v2",
+  "pages": 812,
+  "author": "Someone",
+  "year": 2000,
+  "num_sold": 75420614
+}
+
+### 7. DELETE -- remove the book you created
+### Replace 15 with your id
+DELETE {{baseUrl}}/books/15
+
+### 8. Confirm the delete -- expect 404
+GET {{baseUrl}}/books/15
+
+### 9. POST missing required field -- expect 400
+POST {{baseUrl}}/books
+Content-Type: application/json
+
+{
+  "title": "Incomplete Book"
+}
