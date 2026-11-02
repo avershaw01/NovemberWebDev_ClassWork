@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:3001/api
+
+### 1. GET all books -- expect 200 and 14 books
+GET {{baseUrl}}/books
+
+### 2. GET one book by id -- expect 200 and a single book object
+GET {{baseUrl}}/books/1
+
+### 3. GET a book that does not exist -- expect 404
+GET {{baseUrl}}/books/99
+
+### 4. A route that does not exist -- expect 404 Route not found
+GET http://localhost:3001/anything
