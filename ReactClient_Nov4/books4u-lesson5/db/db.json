@@ -1,0 +1,10 @@
+{
+  "books": [
+    { "id": 1, "title": "All About Me",                "author": "Mr GoodAuthor", "description": "A memoir nobody asked for." },
+    { "id": 2, "title": "Educated",                    "author": "Tara Westover", "description": "A memoir about growing up off the grid and finding education." },
+    { "id": 3, "title": "The Fellowship of the Ring",  "author": "J.R.R. Tolkien", "description": "The first volume of The Lord of the Rings." },
+    { "id": 4, "title": "The Martian",                 "author": "Andy Weir",     "description": "An astronaut stranded on Mars uses science to survive." },
+    { "id": 5, "title": "The Two Towers",              "author": "J.R.R. Tolkien", "description": "The second volume of The Lord of the Rings." },
+    { "id": 6, "title": "Sapiens",                     "author": "Yuval Noah Harari", "description": "A brief history of humankind." }
+  ]
+}
