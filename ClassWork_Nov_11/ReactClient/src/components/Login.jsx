@@ -3,10 +3,26 @@ export default function Login() {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
-    function handleSubmit(e) {
+    const AUTH_URL = import.meta.env.VITE_AUTH_URL
+    async function handleSubmit(e) {
         e.preventDefault()
-// NOTE: we will fill this in next step
-        console.log('submit', userName, password)
+        setError(null)
+        try {
+            const res = await fetch(`${AUTH_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userName, password })
+            })
+            if (!res.ok) {
+                const data = await res.json()
+                return setError(data.error || 'Login failed')
+            }
+            const data = await res.json()
+// NOTE: just log it for now — we store it next
+            console.log('token:', data.accessToken)
+        } catch (err) {
+            setError('Cannot reach the server')
+        }
     }
     return (
         <div className="container mt-5" style={{ maxWidth: 400 }}>

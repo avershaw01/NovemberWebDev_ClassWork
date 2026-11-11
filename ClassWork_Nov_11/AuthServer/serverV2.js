@@ -4,8 +4,10 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 
 const app = express();
+const cors = require("cors");
 // EXPLAIN: lets Express read JSON request bodies into req.body
 app.use(express.json());
+app.use(cors())
 
 // NOTE: sample data in memory (no database today)
 const posts = [
