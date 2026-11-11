@@ -1,0 +1,56 @@
+# jwt-demo.http
+# Click the green arrow next to a request to run it.
+# If you changed PORT in .env, change it here too.
+@host = http://localhost:3001
+
+# After you run request 2, paste the accessToken here (no quotes)
+@token = paste_your_token_here
+
+### 1. Public GET /posts (version 1 returns all 3 posts)
+GET {{host}}/posts
+
+### 2. Log in as Jake. Copy the accessToken from the response into @token above.
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "userName": "Jake"
+}
+
+### 3. Login with no userName (expect 400)
+POST {{host}}/login
+Content-Type: application/json
+
+{}
+
+### 3b. Log in as someone we don't know (expect 401)
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "userName": "Thelma"
+}
+
+### 4. PART 8 (version 2): GET /posts with Jake's token (expect only Jake's post)
+GET {{host}}/posts
+Authorization: Bearer {{token}}
+
+### 5. GET /posts with no token (expect 401)
+GET {{host}}/posts
+
+### 6. GET /posts with an edited token (expect 401)
+# Adding "x" to the end changes the signature, so verify fails
+GET {{host}}/posts
+Authorization: Bearer {{token}}x
+
+### 7. Log in as GrandPa. Paste this new accessToken into @token above.
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "userName": "GrandPa"
+}
+
+### 8. Rerun GET /posts with GrandPa's token (expect only GrandPa's post)
+GET {{host}}/posts
+Authorization: Bearer {{token}}
