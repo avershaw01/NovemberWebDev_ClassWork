@@ -6,6 +6,7 @@ import BookHome    from './components/BookHome'
 import BookDetails from './components/BookDetails'
 import Create      from './components/Create'
 import About       from './components/About'
+import Login from './components/Login'
 
 function App() {
     return (
@@ -18,11 +19,12 @@ function App() {
                     </div>
                     <div className='col-md-6'>
                         <Routes>
-                            <Route path='/'                element={<BookHome />} />
-                            <Route path='/about'           element={<About />} />
-                            <Route path='/BookDetails/:id' element={<BookDetails />} />
-                            <Route path='/create'          element={<Create />} />
-                            <Route path='*'                element={<h2>404 - Page Not Found</h2>} />
+                            <Route path='/' element={<BookHome/>}/>
+                            <Route path='/about' element={<About/>}/>
+                            <Route path='/BookDetails/:id' element={<BookDetails/>}/>
+                            <Route path='/create' element={<Create/>}/>
+                            <Route path={'/login'} element={<Login/>}/>
+                            <Route path='*' element={<h2>404 - Page Not Found</h2>}/>
                         </Routes>
                     </div>
                 </div>
