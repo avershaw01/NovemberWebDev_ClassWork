@@ -1,16 +1,16 @@
-// src/components/useFetch.jsx
 import { useState, useEffect } from 'react'
-
 function useFetch(url) {
-
-    const [data,      setData]      = useState(null)
+    const [data, setData] = useState(null)
     const [isPending, setIsPending] = useState(true)
-    const [error,     setError]     = useState(null)
-
+    const [error, setError] = useState(null)
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(url)
+// NOTE: read the token and attach it if we have one
+                const token = localStorage.getItem('accessToken')
+                const headers = { 'Content-Type': 'application/json' }
+                if (token) headers['Authorization'] = `Bearer ${token}`
+                const res = await fetch(url, { headers })
                 if (!res.ok) throw new Error(`HTTP error: ${res.status}`)
                 const json = await res.json()
                 setData(json)
@@ -23,8 +23,6 @@ function useFetch(url) {
         }
         fetchData()
     }, [url])
-
     return { data, isPending, error }
 }
-
 export default useFetch

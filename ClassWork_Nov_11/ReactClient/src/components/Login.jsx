@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 export default function Login() {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
     const AUTH_URL = import.meta.env.VITE_AUTH_URL
+    const navigate = useNavigate()
     async function handleSubmit(e) {
         e.preventDefault()
         setError(null)
@@ -19,7 +21,8 @@ export default function Login() {
             }
             const data = await res.json()
 // NOTE: just log it for now — we store it next
-            console.log('token:', data.accessToken)
+            localStorage.setItem('accessToken', data.accessToken)
+            navigate('/')
         } catch (err) {
             setError('Cannot reach the server')
         }
